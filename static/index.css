@@ -22,3 +22,7 @@ body {
 .button {
     width: 50%;
 }
+
+#feedback {
+	color: red;
+}

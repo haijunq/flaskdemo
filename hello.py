@@ -14,9 +14,11 @@ def hello():
 @app.route('/userlist')
 def userlist():
     print request
+    f = open("static/userlist.json","r")
+    userlist = json.load(f)
     response = {
-                "id" : 0, 
-                "name" : "haijun"
+                "status" : "success", 
+                "results" : userlist
                 }
     return json.dumps(response)
 
