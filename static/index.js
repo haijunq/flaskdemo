@@ -11,13 +11,60 @@ function alertme() {
 }
 
 function getUserList(event) {
+	if (!isInputValid()) {
+		updateFeedback("", -1);
+		return false;
+	}
+	
 	$.ajax({
 		type : "GET",
 		url : USERLIST,
-	}).done(function(msg) {
-		alert(msg);
-		updateFeedback("haijun", 1);
+	}).done(function(ajax) {
+		var resp = $.parseJSON(ajax);
+		if (resp.status == "success") {
+			var userlist = resp.results;
+			var saved = isUserInList($('#user_name').val(), userlist);
+			if (saved != 0 ) {
+				updateFeedback($('#user_name').val(), saved);			
+			} else {
+				saveNewUser(userlist.length + 1, $('#user_name').val());
+			}
+		}
 	});
+	return false;
+}
+
+function saveNewUser(id, username) {
+	$.ajax({
+		type : "POST",
+		url : ADDNEWUSER,
+		dataType: "json",
+	    contentType: 'application/json;charset=UTF-8',
+		data : JSON.stringify({
+			"id" : id,
+			"name" : username
+		})
+	}).done(function(msg) {
+		updateFeedback($('#user_name').val(), 0);
+	});
+}
+
+
+function isUserInList(username, userlist) {
+	if (userlist.length == 0)
+		return 0;
+	for (var i = 0; i < userlist.length; i++) {
+		if (username == userlist[i].name)
+			return 1;
+	}
+	return 0;
+}
+
+function isInputValid() {
+	username = $('#user_name').val();
+	if (username) {
+		return true;
+	} 
 	return false;
 }
 
@@ -26,11 +73,11 @@ function updateFeedback(name, saved) {
 		$('#feedback').remove();
 	}
 	$('.element').append($('<label></label>').attr("id", "feedback")).addClass("feedback");	
-	if (saved == 1) {
+	if (saved == 0) {
 		$('#feedback').html("New user \"" + name + "\" is saved.");
 	}
 
-	if (saved == 0) {
+	if (saved == 1) {
 		$('#feedback').html("User name \"" + name + "\" already exists.");
 	} 
 
@@ -84,15 +131,4 @@ function updateFeedback(name, saved) {
 //    
 // };
 //
-//
-// function isUserInList(username, userList) {
-// if (!username || !username.trim())
-// return -1;
-// if (userList.length == 0)
-// return 0;
-// for (var i = 0; i < userList.length; i++) {
-// if (username == userList[i].name)
-// return 1;
-// }
-// return 0;
-// };
+

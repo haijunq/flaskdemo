@@ -13,14 +13,26 @@ def hello():
 
 @app.route('/userlist')
 def userlist():
-    print request
-    f = open("static/userlist.json","r")
-    userlist = json.load(f)
+    fobj = file("static/userlist.json")
+    userlist = json.load(fobj)
     response = {
                 "status" : "success", 
                 "results" : userlist
                 }
     return json.dumps(response)
 
+@app.route('/addnewuser', methods = ['POST'])
+def addnewuser():
+    newuser = json.loads(request.data)
+    fobj = file("static/userlist.json")
+    userlist = json.load(fobj)
+    userlist.append(newuser)
+    with open("static/userlist.json", "w") as fobj:
+        json.dump(userlist, fobj, indent = 4)
+    response = {
+               "status" : "success"
+               }
+    return json.dumps(response)
+    
 if __name__ == '__main__':
     app.run()
