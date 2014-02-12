@@ -23,11 +23,11 @@ function getUserList(event) {
 		var resp = $.parseJSON(ajax);
 		if (resp.status == "success") {
 			var userlist = resp.results;
-			var saved = isUserInList($('#user_name').val(), userlist);
+			var saved = isUserInList($('#user_name').val().trim(), userlist);
 			if (saved != 0 ) {
-				updateFeedback($('#user_name').val(), saved);			
+				updateFeedback($('#user_name').val().trim(), saved);			
 			} else {
-				saveNewUser(userlist.length + 1, $('#user_name').val());
+				saveNewUser(userlist.length + 1, $('#user_name').val().trim());
 			}
 		}
 	});
@@ -45,7 +45,7 @@ function saveNewUser(id, username) {
 			"name" : username
 		})
 	}).done(function(msg) {
-		updateFeedback($('#user_name').val(), 0);
+		updateFeedback($('#user_name').val().trim(), 0);
 	});
 }
 
@@ -61,7 +61,7 @@ function isUserInList(username, userlist) {
 }
 
 function isInputValid() {
-	username = $('#user_name').val();
+	username = $('#user_name').val().trim();
 	if (username) {
 		return true;
 	} 
