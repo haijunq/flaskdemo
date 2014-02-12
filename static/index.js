@@ -23,11 +23,13 @@ function getUserList(event) {
 		var resp = $.parseJSON(ajax);
 		if (resp.status == "success") {
 			var userlist = resp.results;
-			var saved = isUserInList($('#user_name').val().trim(), userlist);
+			var username = $('#user_name').val().trim();
+			var username_escaped = $('<div/>').text(username).html();
+			var saved = isUserInList(username_escaped, userlist);
 			if (saved != 0 ) {
-				updateFeedback($('#user_name').val().trim(), saved);			
+				updateFeedback(username_escaped, saved);			
 			} else {
-				saveNewUser(userlist.length + 1, $('#user_name').val().trim());
+				saveNewUser(userlist.length + 1, username_escaped);
 			}
 		}
 	});
@@ -45,7 +47,9 @@ function saveNewUser(id, username) {
 			"name" : username
 		})
 	}).done(function(msg) {
-		updateFeedback($('#user_name').val().trim(), 0);
+		var username = $('#user_name').val().trim();
+		var username_escaped = $('<div/>').text(username).html();
+		updateFeedback(username_escaped, 0);
 	});
 }
 
@@ -61,11 +65,17 @@ function isUserInList(username, userlist) {
 }
 
 function isInputValid() {
-	username = $('#user_name').val().trim();
-	if (username) {
-		return true;
-	} 
-	return false;
+	var username = $('#user_name').val().trim();
+	var username_escaped = $('<div/>').text(username).html();
+	if (username_escaped) {
+		if (username_escaped.length <= 40) {
+			return true;
+		} else {
+			return false;
+		}
+	} else {
+		return false;
+	}
 }
 
 function updateFeedback(name, saved) {
@@ -74,15 +84,15 @@ function updateFeedback(name, saved) {
 	}
 	$('.element').append($('<label></label>').attr("id", "feedback")).addClass("feedback");	
 	if (saved == 0) {
-		$('#feedback').html("New user \"" + name + "\" is saved.");
+		$('#feedback').text("New user \"" + $('<div/>').html(name).text() + "\" is saved.");
 	}
 
 	if (saved == 1) {
-		$('#feedback').html("User name \"" + name + "\" already exists.");
+		$('#feedback').text("User name \"" + $('<div/>').html(name).text() + "\" already exists.");
 	} 
 
 	if (saved == -1){
-		$('#feedback').html("Please input a correct user name.");
+		$('#feedback').text("Please input a correct user name less than 40 characters.");
 	}
 }
 

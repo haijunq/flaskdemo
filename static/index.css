@@ -1,5 +1,5 @@
 h1 {
-    font-size: 12px;
+    font-size: 14px;
     color: white;
     background: #cc0066;
     margin: 0px;
@@ -7,7 +7,9 @@ h1 {
 }
 
 body {
-    text-align: center;
+    font-family: Tahoma, Verdana, sans-serif;
+    font-size: 14px;
+	text-align: center;
     margin: 0px;
 }
 
@@ -20,7 +22,7 @@ body {
 }
 
 .button {
-    width: 50%;
+    width: 250px;
 }
 
 #feedback {

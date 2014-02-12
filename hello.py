@@ -24,6 +24,12 @@ def userlist():
 @app.route('/addnewuser', methods = ['POST'])
 def addnewuser():
     newuser = json.loads(request.data)
+    if (len(newuser["name"]) > 40):
+        response = {
+                    "status" : "failure"
+                    }
+        return json.dumps(response)
+    
     fobj = file("static/userlist.json")
     userlist = json.load(fobj)
     userlist.append(newuser)
