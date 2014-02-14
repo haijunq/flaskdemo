@@ -16,7 +16,7 @@ def userlist():
     fobj = file("static/userlist.json")
     userlist = json.load(fobj)
     response = {
-                "status" : "success", 
+                "status" : "success1", 
                 "results" : userlist
                 }
     return json.dumps(response)
@@ -26,7 +26,7 @@ def addnewuser():
     newuser = json.loads(request.data)
     if (len(newuser["name"]) > 40):
         response = {
-                    "status" : "failure"
+                    "status" : "failure1"
                     }
         return json.dumps(response)
     
