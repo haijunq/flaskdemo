@@ -96,6 +96,10 @@ function updateFeedback(name, saved) {
 	}
 }
 
+function popTable() {
+}
+
+
 //
 // function getUserList() {
 // alert("html");
