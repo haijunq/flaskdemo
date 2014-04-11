@@ -16,7 +16,7 @@ def userlist():
     fobj = file("static/userlist.json")
     userlist = json.load(fobj)
     response = {
-                "status" : "success1", 
+                "status" : "success", 
                 "results" : userlist
                 }
     return json.dumps(response)
