@@ -26,7 +26,7 @@ def addnewuser():
     newuser = json.loads(request.data)
     if (len(newuser["name"]) > 40):
         response = {
-                    "status" : "failure1"
+                    "status" : "failure"
                     }
         return json.dumps(response)
     
