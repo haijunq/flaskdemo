@@ -36,7 +36,8 @@ def addnewuser():
     with open("static/userlist.json", "w") as fobj:
         json.dump(userlist, fobj, indent = 4)
     response = {
-               "status" : "success"
+               "status" : "success",
+               "userlist" : userlist
                }
     return json.dumps(response)
     
